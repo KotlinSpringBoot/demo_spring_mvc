@@ -16,7 +16,12 @@ interface CategoryDao : JpaRepository<Category, Long> {
     /**
      * Paging query needs to have a Pageable parameter!
      */
-    @Query("select a from #{#entityName} a where type = :type and a.name like %:searchText%")
+    @Query("""
+        select a from #{#entityName} a
+        where a.type = :type
+        and concat( a.name, "|" , a.detail, "|", a.code)
+        like %:searchText%
+        """)
     fun page(@Param("searchText") searchText: String,
              @Param("type") type: Int,
              pageable: Pageable): Page<Category>
