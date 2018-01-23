@@ -8,4 +8,9 @@ object CommonContext {
     val ESCAPE_URLS = arrayOf("/index", "/login", "/doLogin", "/logout", ".js", ".css", ".jpeg", ".ico", ".jpg", ".png", ".woff")
     val FILTERED_REQUEST = "@session_context_filtered_request@"
     val LOGIN_REDIRECT_URL = "login_redirect_url"
+
+    /**
+     *  USER_ADMIN 权限校验：匹配请求： /api/user，/user/list 等
+     */
+    val USER_ADMIN_PERM = "/user"
 }

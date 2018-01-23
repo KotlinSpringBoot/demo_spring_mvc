@@ -15,7 +15,7 @@ var App = {
                     }
                 },
                 error: function (error) {
-                    alert("error：" + error)
+                    alert("error：" + JSON.stringify(error))
                 }
             })
         })

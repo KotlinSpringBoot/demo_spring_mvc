@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest
  * Created by Kor on 2018-01-22 23:04:17. author: 东海陈光剑
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 class UserController {
     @Autowired lateinit var UserDao: UserDao
 

@@ -17,4 +17,6 @@ class User {
     @Column(unique = true)
     var username = ""
     var password = ""
+    @ManyToMany(targetEntity = Role::class, fetch = FetchType.EAGER)
+    lateinit var roles: Set<Role>
 }

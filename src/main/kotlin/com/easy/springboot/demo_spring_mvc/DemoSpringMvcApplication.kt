@@ -1,8 +1,10 @@
 package com.easy.springboot.demo_spring_mvc
 
 import com.easy.springboot.demo_spring_mvc.dao.CategoryDao
+import com.easy.springboot.demo_spring_mvc.dao.RoleDao
 import com.easy.springboot.demo_spring_mvc.dao.UserDao
 import com.easy.springboot.demo_spring_mvc.entity.Category
+import com.easy.springboot.demo_spring_mvc.entity.Role
 import com.easy.springboot.demo_spring_mvc.entity.User
 import com.easy.springboot.demo_spring_mvc.util.MD5Util
 import org.springframework.boot.ApplicationRunner
@@ -35,11 +37,43 @@ fun main(args: Array<String>) {
 
 private fun BeanDefinitionDsl.BeanDefinitionContext.initUser() {
     val userDao = ref<UserDao>()
-    val u = User()
-    u.username = "jack"
-    u.password = MD5Util.md5("123456")
+    val roleDao = ref<RoleDao>()
     try {
-        userDao.save(u)
+        /*********** 角色 ***********/
+        // 普通用户角色
+        val roleUser = Role()
+        roleUser.role = "ROLE_USER"
+        // 超级管理员角色
+        val roleAdmin = Role()
+        roleAdmin.role = "ROLE_ADMIN"
+        val r1 = roleDao.save(roleUser)
+        val r2 = roleDao.save(roleAdmin)
+        /*********** 用户 ***********/
+        // 普通用户
+        val user = User()
+        user.username = "user"
+        user.password = MD5Util.md5("user")
+
+        val userRoles = setOf(r1)
+        user.roles = userRoles
+        userDao.save(user)
+
+        val jack = User()
+        jack.username = "jack"
+        jack.password = MD5Util.md5("123456")
+
+        val jackRoles = setOf(r1,r2)
+        jack.roles = jackRoles
+        userDao.save(jack)
+
+        // 超级管理员用户
+        val admin = User()
+        admin.username = "admin"
+        admin.password = MD5Util.md5("admin")
+
+        val adminRoles = setOf(r1, r2)
+        admin.roles = adminRoles
+        userDao.save(admin)
     } catch (e: Exception) {
     }
 }

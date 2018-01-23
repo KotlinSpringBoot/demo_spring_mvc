@@ -16,15 +16,26 @@ class RouterController {
     fun index(): String {
         return "index"
     }
+
     @GetMapping(value = ["/about"])
     fun about(): String {
         return "about"
+    }
+
+    @GetMapping(value = ["/error/403"])
+    fun error_403(): String {
+        return "error/403"
     }
 
     @GetMapping(value = ["/category/list/{type}"])
     fun category(@PathVariable(value = "type") type: Int, model: Model): String {
         model["type"] = type
         return "category/list"
+    }
+
+    @GetMapping(value = ["/user/list"])
+    fun user_list(): String {
+        return "user/list"
     }
 
 }

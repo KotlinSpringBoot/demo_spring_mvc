@@ -16,13 +16,29 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/user/list">用户管理</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/about">关于</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">登录</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">退出</a>
+                <li class="divider"></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    ${(Session["currentUser"].username)!} <b
+                            class="caret"></b>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="#"> Kotlin </a></li>
+                        <li><a href="#"> Spring Boot </a></li>
+                        <li><a href="#"> Java </a></li>
+                        <li><a href="#"> Scala </a></li>
+                        <li><a href="#"> React </a></li>
+                        <li class="divider"></li>
+                        <li><a href="/login">登录</a></li>
+                        <li><a href="/logout">退出</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
