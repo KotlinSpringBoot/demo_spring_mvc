@@ -2,17 +2,17 @@ var App = {
     login: function () {
         $('#login-btn').on('click', function () {
             $.ajax({
-                url: '/doLogin',
+                url: '/doRegister',
                 data: $('#login-form').serialize(),
                 method: 'POST',
                 dataType: 'json',
                 success: function (data) {
                     console.log(data)
                     if (data.success == true) {
-                        alert("success:" + data.msg)
-                        location.href = data.redirectUrl
+                        alert(data.msg)
+                        location.href = "/"
                     } else {
-                        alert("something maybe wrong:" + data.msg)
+                        alert(data.msg)
                     }
                 },
                 error: function (error) {

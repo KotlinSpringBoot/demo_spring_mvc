@@ -36,6 +36,7 @@
                         <li><a href="#"> Scala </a></li>
                         <li><a href="#"> React </a></li>
                         <li class="divider"></li>
+                        <li><a href="/register">注册</a></li>
                         <li><a href="/login">登录</a></li>
                         <li><a href="/logout">退出</a></li>
                     </ul>

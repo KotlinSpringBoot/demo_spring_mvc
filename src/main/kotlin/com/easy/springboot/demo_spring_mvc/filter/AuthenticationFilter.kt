@@ -68,7 +68,7 @@ class AuthenticationFilter : Filter {
     }
 
     private fun isEscapeUrls(requestURI: String): Boolean {
-        CommonContext.ESCAPE_URLS.iterator().forEach {
+        CommonContext.FILTER_PASS_URLS.iterator().forEach {
             if (requestURI.indexOf(it) >= 0) {
                 return true
             }
