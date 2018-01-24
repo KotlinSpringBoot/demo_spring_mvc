@@ -13,6 +13,7 @@
                         <li><a href="/category/list/1">学科分类</a></li>
                         <li><a href="/category/list/2">图书分类</a></li>
                         <li><a href="/category/list/3">行业分类</a></li>
+                        <li><a href="/category/list/4">编程语言</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -30,11 +31,6 @@
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li><a href="#"> Kotlin </a></li>
-                        <li><a href="#"> Spring Boot </a></li>
-                        <li><a href="#"> Java </a></li>
-                        <li><a href="#"> Scala </a></li>
-                        <li><a href="#"> React </a></li>
                         <li class="divider"></li>
                         <li><a href="/register">注册</a></li>
                         <li><a href="/login">登录</a></li>

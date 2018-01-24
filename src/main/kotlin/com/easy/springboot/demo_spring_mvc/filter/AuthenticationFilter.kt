@@ -14,11 +14,12 @@ class AuthenticationFilter : Filter {
     }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        //在这里可以对客户端请求进行处理
         println("===> AuthenticationFilter doFilter")
         val requestURL = (request as HttpServletRequest).requestURL.toString()
+        // 1.判断是否需要鉴权
         if (isNeedAuth(requestURL, request)) {
             System.err.println("Auth RequestURL: ${requestURL}")
+            // 2.执行用户登陆状态鉴权
             doAuthenticationFilter(request, response, chain)
             chain.doFilter(request, response)
         } else {
@@ -33,26 +34,20 @@ class AuthenticationFilter : Filter {
     private fun isNeedAuth(requestURL: String, request: ServletRequest) =
         !isEscapeUrls(requestURL) && request.getAttribute(CommonContext.FILTERED_REQUEST) == null
 
-    /**
-     * 登陆状态鉴权
-     */
     private fun doAuthenticationFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        // 设置过滤标识，防止一次请求多次过滤
+        // 3.设置过滤标识，防止一次请求多次过滤
         request.setAttribute(CommonContext.FILTERED_REQUEST, true)
         val httpServletRequest = request as HttpServletRequest
 
         val sessionUser = getSessionUser(httpServletRequest)
 
-        // 当前 session 中不存在该用户（用户未登录）
+        // 如果当前 session 中不存在该用户（ 用户未登录 ）
         if (sessionUser == null) {
+            // 4.跳转登陆页面
             redirectLogin(request, response)
-            return
         }
     }
 
-    /**
-     * 跳转登陆页面
-     */
     private fun redirectLogin(request: ServletRequest, response: ServletResponse) {
         val httpServletRequest = request as HttpServletRequest
         var toURL = httpServletRequest.requestURL.toString()

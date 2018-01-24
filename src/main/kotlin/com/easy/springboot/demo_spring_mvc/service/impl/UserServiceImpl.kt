@@ -51,26 +51,35 @@ class UserServiceImpl : UserService {
 
     override fun login(user: User): LoginResult<String> {
         val loginResult = LoginResult<String>()
+        // 根据用户名查询 User 对象
         val u = UserDao.findByUsername(user.username)
         val password = MD5Util.md5(user.password)
-        // 通过 RequestContextHolder 获取当前请求属性
-        val requestAttributes = RequestContextHolder.currentRequestAttributes()
-        val request = (requestAttributes as ServletRequestAttributes).request
-        val response = requestAttributes.response
-        val session = request.session
-        if (u != null && u.password == password) {
+
+        if (u != null && u.password != password) {// 1.用户存在&&密码错误
+            loginResult.isSuccess = false
+            loginResult.msg = "登录失败：密码错误"
+        } else if (u != null && u.password == password) {// 2.用户存在&&密码正确
+            // 3.将用户对象 User 放到 Session 中
+            // 通过 RequestContextHolder 获取当前请求属性
+            val requestAttributes = RequestContextHolder.currentRequestAttributes()
+            val request = (requestAttributes as ServletRequestAttributes).request
+            val response = requestAttributes.response
+            val session = request.session
             setSessionUser(u, session)
+            // 4.是否有登陆之后的跳转 URL
             var toURL = session.getAttribute(CommonContext.LOGIN_REDIRECT_URL) as? String
             if (toURL == null) {
                 toURL = "/"
             }
+            // 5.返回登陆成功
             loginResult.isSuccess = true
             loginResult.msg = "登录成功"
             loginResult.result = null
             loginResult.redirectUrl = toURL
         } else {
+            // 5.直接返回用户登录失败
             loginResult.isSuccess = false
-            loginResult.msg = "登录失败"
+            loginResult.msg = "登录失败：用户不存在"
             loginResult.result = null
         }
         return loginResult
