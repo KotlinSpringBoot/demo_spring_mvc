@@ -1,6 +1,5 @@
 package com.easy.springboot.demo_spring_mvc.handler
 
-import com.easy.springboot.demo_spring_mvc.exception.NoPermissionException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.ModelAndView
