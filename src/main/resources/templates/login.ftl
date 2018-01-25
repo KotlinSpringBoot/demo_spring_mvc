@@ -22,7 +22,7 @@
                        class="form-control col-sm-5"
                        id="form-password">
             </div>
-            <button id="login-btn" type="submit" class="btn btn-success login-btn"> 登录</button>
+            <button id="login-btn" type="button" class="btn btn-success login-btn"> 登录</button>
         </form>
     </div>
 </div>

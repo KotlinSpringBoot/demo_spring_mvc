@@ -1,4 +1,4 @@
-package com.easy.springboot.demo_spring_mvc.router
+package com.easy.springboot.demo_spring_mvc.controller
 
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

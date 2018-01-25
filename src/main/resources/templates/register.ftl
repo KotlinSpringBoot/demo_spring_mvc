@@ -22,7 +22,8 @@
                        class="form-control col-sm-5"
                        id="form-password">
             </div>
-            <button id="login-btn" type="submit" class="btn btn-success login-btn">提交注册</button>
+            <#--将button的type从submit改为 button，因为submit会默认提交表单，而点击事件又绑定ajax，于是ajax请求就被cancel了。-->
+            <button id="login-btn" type="button" class="btn btn-success login-btn">提交注册</button>
         </form>
     </div>
 </div>

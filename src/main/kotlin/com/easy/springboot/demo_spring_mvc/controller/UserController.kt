@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest
 class UserController {
     @Autowired lateinit var UserDao: UserDao
 
-    @GetMapping(value = ["/"])
+    @GetMapping(value = ["", "/"])
     fun user(request: HttpServletRequest): List<User> {
         return UserDao.findAll()
     }

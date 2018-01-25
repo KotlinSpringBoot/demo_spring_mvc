@@ -1,5 +1,5 @@
 var App = {
-    login: function () {
+    register: function () {
         $('#login-btn').on('click', function () {
             $.ajax({
                 url: '/doRegister',
@@ -21,9 +21,9 @@ var App = {
             })
         })
     },
-    doLogin: function () {
-        App.login()
+    doRegister: function () {
+        App.register()
     }
 }
 
-$(App.doLogin())
+$(App.doRegister())
