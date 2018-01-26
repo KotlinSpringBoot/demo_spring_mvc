@@ -12,20 +12,25 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class RouterController {
 
-    @GetMapping(value = ["/index"])
-    fun index(): String {
-        return "index"
-    }
-
-    @GetMapping(value = ["/about"])
-    fun about(): String {
-        return "about"
-    }
-
-    @GetMapping(value = ["/error/403"])
-    fun error_403(): String {
-        return "error/403"
-    }
+//    @GetMapping(value = ["/index"])
+//    fun index(): String {
+//        return "index"
+//    }
+//
+//    @GetMapping(value = ["/about"])
+//    fun about(): String {
+//        return "about"
+//    }
+//
+//    @GetMapping(value = ["/error/403"])
+//    fun error_403(): String {
+//        return "error/403"
+//    }
+//
+//    @GetMapping(value = ["/error/500"])
+//    fun error_500(): String {
+//        return "error/500"
+//    }
 
     @GetMapping(value = ["/category/list/{type}"])
     fun category(@PathVariable(value = "type") type: Int, model: Model): String {

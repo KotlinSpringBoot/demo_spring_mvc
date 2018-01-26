@@ -15,11 +15,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.ServletComponentScan
 import org.springframework.context.support.BeanDefinitionDsl
 import org.springframework.context.support.beans
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import java.io.File
 
 @SpringBootApplication
 @ServletComponentScan(basePackages = ["com.easy.springboot.demo_spring_mvc.filter"])
 @EnableAutoConfiguration(exclude = [ErrorMvcAutoConfiguration::class])
+@EnableWebMvc
 class DemoSpringMvcApplication
 
 fun main(args: Array<String>) {
