@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestController
 @RequestMapping("/api/category")
-class CategoryController {
+class ApiCategoryController {
 
     @Autowired lateinit var categoryDao: CategoryDao
 

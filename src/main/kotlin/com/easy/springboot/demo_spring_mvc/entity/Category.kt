@@ -9,8 +9,8 @@ import javax.persistence.*
  */
 @Entity
 @Table(indexes = [
-    Index(columnList = "code", unique = true),
-    Index(columnList = "name", unique = false),
+    Index(columnList = "code", unique = false),
+    Index(columnList = "name", unique = true),
     Index(columnList = "type", unique = false)
 ])
 class Category {
@@ -23,14 +23,14 @@ class Category {
 
     @Column(length = 200)
     var name = ""
-    @Column(length = 1000)
+    @Column(length = 2000)
     var detail = ""
 
     /**
      * 1 学科分类
      * 2 图书分类
      * 3 行业分类
-     * 4 动植物分类
+     * 4 中国产业分页
      * 5 国家分类
      * 6 语言分类
      * 7 宗教分类
@@ -38,11 +38,12 @@ class Category {
      * 9 音乐分类
      * 10 文学分类
      * 11 计算机编程语言分类
+     * 12 动植物分类
      *
      */
     var type = 1
     // 编码
-    @Column(unique = true, length = 200)
+    @Column(length = 200)
     var code = "001"
 
 }

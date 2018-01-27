@@ -7,7 +7,7 @@ import java.lang.Exception
 import javax.servlet.http.HttpServletRequest
 
 @ControllerAdvice
-class ExceptionHandler {
+class WikiExceptionHandler {
     @ExceptionHandler(value = Exception::class)
     fun defaultErrorHandler(req: HttpServletRequest, e: Exception): ModelAndView {
         val mav = ModelAndView()

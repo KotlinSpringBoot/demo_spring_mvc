@@ -43,7 +43,7 @@ var App = {
         $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN'])
         var searchText = $('.search').find('input').val()
         $('#App').bootstrapTable({
-            url: '/api/category/search',
+            url: '/wiki/api/category/search',
             sidePagination: "server",
             queryParamsType: 'pageNo,pageSize,type',
             method: 'get',

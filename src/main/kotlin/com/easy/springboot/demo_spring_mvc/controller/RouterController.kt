@@ -5,6 +5,7 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 
 /**
  * Created by Kor on 2017-12-24 14:04:20.
@@ -31,6 +32,15 @@ class RouterController {
 //    fun error_500(): String {
 //        return "error/500"
 //    }
+
+    /**
+     * 测试全局异常处理：@ControllerAdvice class WikiExceptionHandler
+     */
+    @GetMapping(value = ["/test/exception"])
+    fun test_exception(): String {
+        val x = 1 / 0
+        return "exception"
+    }
 
     @GetMapping(value = ["/category/list/{type}"])
     fun category(@PathVariable(value = "type") type: Int, model: Model): String {

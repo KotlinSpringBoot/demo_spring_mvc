@@ -22,10 +22,17 @@
                        class="form-control col-sm-5"
                        id="form-password">
             </div>
-            <#--将button的type从submit改为 button，因为submit会默认提交表单，而点击事件又绑定ajax，于是ajax请求就被cancel了。-->
+            <div class="form-group">
+                <input type="date"
+                       name="activeDate"
+                       placeholder="账号有效期"
+                       class="form-control col-sm-5"
+                >
+            </div>
+        <#--将button的type从submit改为 button，因为submit会默认提交表单，而点击事件又绑定ajax，于是ajax请求就被cancel了。-->
             <button id="login-btn" type="button" class="btn btn-success login-btn">提交注册</button>
         </form>
     </div>
 </div>
-<script src="/app/register.js"></script>
+<script src="${rootContextPath}/app/register.js"></script>
 <#include 'layout/foot.ftl'>

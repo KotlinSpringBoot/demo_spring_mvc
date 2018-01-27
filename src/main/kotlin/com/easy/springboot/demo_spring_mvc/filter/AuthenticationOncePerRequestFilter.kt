@@ -16,22 +16,18 @@ class AuthenticationOncePerRequestFilter : OncePerRequestFilter() {
         println("===> AuthenticationFilter doFilter")
         val requestURL = request.requestURL.toString()
         // 1.判断是否需要鉴权
-        if (isNeedAuth(requestURL, request)) {
-            System.err.println("Auth RequestURL: ${requestURL}")
-            // 2.执行用户登陆状态鉴权
-            doAuthenticationFilter(request, response, filterChain)
+        if (CommonContext.isEscapeUrls(requestURL)) {
+            println("Pass RequestURL: ${requestURL}")
             filterChain.doFilter(request, response)
         } else {
-            println("Pass RequestURL: ${requestURL}")
+            // 2.执行用户登陆状态鉴权
+            System.err.println("Auth RequestURL: ${requestURL}")
+            doAuthenticationFilter(request, response, filterChain)
             filterChain.doFilter(request, response)
         }
     }
 
-    /**
-     * 该请求 URL ： 不在资源白名单 && 没有被过滤过
-     */
-    private fun isNeedAuth(requestURL: String, request: ServletRequest) =
-            !isEscapeUrls(requestURL)
+
 
     private fun doAuthenticationFilter(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val sessionUser = getSessionUser(request)
@@ -48,7 +44,7 @@ class AuthenticationOncePerRequestFilter : OncePerRequestFilter() {
         var toURL = httpServletRequest.requestURL.toString()
         // 查询参数处理
         val queryString = httpServletRequest.queryString
-        if (queryString != "") {
+        if (queryString!=null && queryString != "") {
             toURL += "?$queryString"
         }
         // 将用户请求的 URL 存入 Session 中，用于登陆成功之后跳转
@@ -57,14 +53,6 @@ class AuthenticationOncePerRequestFilter : OncePerRequestFilter() {
                 .forward(request, response)
     }
 
-    private fun isEscapeUrls(requestURI: String): Boolean {
-        CommonContext.FILTER_PASS_URLS.iterator().forEach {
-            if (requestURI.indexOf(it) >= 0) {
-                return true
-            }
-        }
-        return false
-    }
 
     /**
      * 获取当前 Session 中是否有该用户

@@ -1,5 +1,6 @@
 package com.easy.springboot.demo_spring_mvc.entity
 
+import com.alibaba.fastjson.annotation.JSONField
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty
@@ -16,7 +17,7 @@ class User {
     var gmtCreate = Date()
     var gmtModify = Date()
     var isDeleted = 0
-    @Column(unique = true)
+    @Column(unique = true,length = 100)
     @NotEmpty(message = "用户名不能为空")
     @Size(max = 100, min = 1, message = "用户名长度在1-20之间")
     var username = ""
@@ -25,4 +26,9 @@ class User {
     var password = ""
     @ManyToMany(targetEntity = Role::class, fetch = FetchType.EAGER)
     lateinit var roles: Set<Role>
+    /**
+     * 账号有效期
+     */
+    @JSONField(format = "yyyy-MM-dd")
+    var activeDate = Date()
 }

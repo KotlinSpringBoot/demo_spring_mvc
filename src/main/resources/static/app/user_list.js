@@ -44,13 +44,22 @@ var App = {
                     }
                     return result
                 }
+            },
+            {
+                title: "账号有效期",
+                field: "activeDate",
+                align: 'left',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return value
+                }
             }
         )
 
         $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN'])
         var searchText = $('.search').find('input').val()
         $('#App').bootstrapTable({
-            url: '/api/user/',
+            url: '/wiki/api/user/',
             sidePagination: "client",
             queryParamsType: 'pageNo,pageSize,type',
             method: 'get',

@@ -4,12 +4,12 @@ import com.easy.springboot.demo_spring_mvc.constant.CommonContext
 import com.easy.springboot.demo_spring_mvc.entity.User
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView
-import java.io.ByteArrayOutputStream
-import java.io.PrintWriter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 class LoginSessionHandlerInterceptor : HandlerInterceptor {
+    @Autowired lateinit var environment: Environment
 
     var log = LoggerFactory.getLogger(LoginSessionHandlerInterceptor::class.java)
 
@@ -45,14 +46,21 @@ class LoginSessionHandlerInterceptor : HandlerInterceptor {
     @Throws(Exception::class)
     override fun preHandle(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse, o: Any): Boolean {
         log.info("---------------------开始进入 LoginSessionHandlerInterceptor 拦截----------------------------")
+        val requestURL = httpServletRequest.requestURL.toString()
+        if (CommonContext.isEscapeUrls(requestURL)) {
+            return true
+        }
         val session = httpServletRequest.session
         val currentUser = session.getAttribute(CommonContext.CURRENT_USER_CONTEXT) as? User
         log.info("currentUser ===> ${ObjectMapper().writeValueAsString(currentUser)}")
         if (!StringUtils.isEmpty(currentUser)) {
             return true
         } else {
-            val printWriter = httpServletResponse.writer
-            printWriter.write("{code:0,message:\"session is invalid,please login again!\"}")
+            val writer = httpServletResponse.writer
+            val map = mutableMapOf<String, Any>()
+            map["code"] = 403
+            map["msg"] = "Request Invalid"
+            writer.write(ObjectMapper().writeValueAsString(map))
             return false
         }
     }
@@ -64,6 +72,7 @@ class LoginSessionHandlerInterceptor : HandlerInterceptor {
      * mappedHandler.applyPostHandle(processedRequest, response, mv)：最终会调用HandlerInterceptor的postHandle方法
      * 具体实现是在HandlerExecutionChain中实现如下，就是获取所有的拦截器并调用其postHandle方法。
      */
+    @Throws(Exception::class)
     override fun postHandle(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse, o: Any, modelAndView: ModelAndView?) {
         log.info("--------------  postHandle: 在执行 Controller的处理后，在处理 ModelAndView 前执行 ---------------")
         log.info("httpServletRequest => {}", httpServletRequest)
@@ -77,8 +86,13 @@ class LoginSessionHandlerInterceptor : HandlerInterceptor {
      *
      * 当有拦截器抛出异常时,会从当前拦截器往回执行所有的拦截器的 afterCompletion()
      */
+    @Throws(Exception::class)
     override fun afterCompletion(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse, o: Any, e: Exception?) {
         log.info("--------------- afterCompletion : 在 DispatchServlet 执行处理完 ModelAndView 后执行 -------------------------")
+        if (e != null) {
+            e.printStackTrace()
+            log.info("afterCompletion Exception ===> {}", e.message)
+        }
     }
 
 }

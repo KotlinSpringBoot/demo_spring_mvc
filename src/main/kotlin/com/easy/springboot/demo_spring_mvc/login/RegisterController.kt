@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import javax.validation.Valid
 
@@ -18,7 +19,7 @@ import javax.validation.Valid
 class RegisterController {
     @Autowired lateinit var UserService: UserService
 
-    @PostMapping(value = ["/doRegister"])
+    @PostMapping(value = ["/api/doRegister"])
     @ResponseBody
     fun doRegister(@Valid user: User, bindingResult: BindingResult): RegisterResult<String> {
         return UserService.register(user, bindingResult)

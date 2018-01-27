@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession
 class LoginController {
     @Autowired lateinit var UserService: UserService
 
-    @PostMapping(value = ["/doLogin"])
+    @PostMapping(value = ["/api/doLogin"])
     @ResponseBody
     fun doLogin(user: User): LoginResult<String> {
         return UserService.login(user)
@@ -33,7 +33,7 @@ class LoginController {
     @GetMapping(value = ["/logout"])
     fun logout(session: HttpSession): String {
         session.removeAttribute(CommonContext.CURRENT_USER_CONTEXT)
-        return "forward:/"
+        return "forward:/login"
     }
 
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestController
 @RequestMapping("/api/user")
-class UserController {
+class ApiUserController {
     @Autowired lateinit var UserDao: UserDao
 
     @GetMapping(value = ["", "/"])
