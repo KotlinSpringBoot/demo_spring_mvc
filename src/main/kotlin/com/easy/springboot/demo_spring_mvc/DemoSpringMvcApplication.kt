@@ -22,7 +22,7 @@ import java.io.File
 @ServletComponentScan(basePackages = ["com.easy.springboot.demo_spring_mvc.filter"])
 @EnableAutoConfiguration(exclude = [ErrorMvcAutoConfiguration::class])
 @EnableWebMvc
-class DemoSpringMvcApplication
+open class DemoSpringMvcApplication
 
 fun main(args: Array<String>) {
     SpringApplicationBuilder().initializers(

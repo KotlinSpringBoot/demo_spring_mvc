@@ -64,25 +64,25 @@ open class WebMvcConfig : WebMvcConfigurationSupport() {
     }
 
 
-//    @GetMapping(value = ["/index"])
-//    fun index(): String {
-//        return "index"
-//    }
+//@GetMapping(value = ["/index"])
+//fun index(): String {
+//    return "index"
+//}
 //
-//    @GetMapping(value = ["/about"])
-//    fun about(): String {
-//        return "about"
-//    }
+//@GetMapping(value = ["/about"])
+//fun about(): String {
+//    return "about"
+//}
 //
-//    @GetMapping(value = ["/error/403"])
-//    fun error_403(): String {
-//        return "error/403"
-//    }
+//@GetMapping(value = ["/error/403"])
+//fun error_403(): String {
+//    return "error/403"
+//}
 //
-//    @GetMapping(value = ["/error/500"])
-//    fun error_500(): String {
-//        return "error/500"
-//    }
+//@GetMapping(value = ["/error/500"])
+//fun error_500(): String {
+//    return "error/500"
+//}
     /**
      * View - Controller 映射配置
      */
@@ -96,42 +96,42 @@ override fun addViewControllers(registry: ViewControllerRegistry) {
     registry.addViewController("/error/500").setViewName("/error/500")
 }
 
-    /**
-     * 重写 addCorsMappings方法:
-    addMapping：配置可以被跨域的路径，可以任意配置，可以具体到直接请求路径。
-    allowedMethods：允许所有的请求方法访问该跨域资源服务器，如：POST、GET、PUT、DELETE等。
-    allowedOrigins：允许所有的请求域名访问我们的跨域资源，可以固定单条或者多条内容，如："http://www.baidu.com"，只有百度可以访问我们的跨域资源。
-    allowedHeaders：允许所有的请求header访问，可以自定义设置任意请求头信息，如："X-TOKEN"
-     */
-    override fun addCorsMappings(registry: CorsRegistry) {
-        super.addCorsMappings(registry)
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("PUT,POST,GET,DELETE,OPTIONS")
-                .allowedHeaders("x-requested-with,content-type,Access-Control-Allow-Origin")
-    }
+/**
+ * 重写 addCorsMappings方法:
+addMapping：配置可以被跨域的路径。
+allowedMethods：允许访问该跨域资源服务器的请求方法，如：POST、GET、PUT、DELETE等。
+allowedOrigins：允许访问的跨域资源的请求域名。
+allowedHeaders：允许请求 header 的访问，如："X-TOKEN"。
+ */
+override fun addCorsMappings(registry: CorsRegistry) {
+    super.addCorsMappings(registry)
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowedMethods("PUT,POST,GET,DELETE,OPTIONS")
+            .allowedHeaders("*")
+}
 
 
-    /**
-     *
-     * FreeMarker 视图解析器配置
-     * 配置了@Bean注解，该注解会将方法返回值加入到Spring Ioc 容器内。
-     * @return
-     */
-    @Bean
-    open fun freeMarkerViewResolver(): FreeMarkerViewResolver {
-        val viewResolver = FreeMarkerViewResolver()
-        // freemarker本身配置了templateLoaderPath而在viewResolver中不需要配置prefix，且路径前缀必须配置在 templateLoaderPath 中
-        viewResolver.setPrefix("")
-        viewResolver.setSuffix(".ftl")
-        viewResolver.isCache = false
-        viewResolver.setContentType("text/html;charset=UTF-8")
-        viewResolver.setRequestContextAttribute("requestContext") //为模板调用时，调用 request 对象的变量名
-        viewResolver.order = 0
-        viewResolver.setExposeRequestAttributes(true);
-        viewResolver.setExposeSessionAttributes(true);
-        return viewResolver
-    }
+/**
+ *
+ * FreeMarker 视图解析器配置
+ * 配置了@Bean注解，该注解会将方法返回值加入到Spring Ioc 容器内。
+ * @return
+ */
+@Bean
+open fun freeMarkerViewResolver(): FreeMarkerViewResolver {
+    val viewResolver = FreeMarkerViewResolver()
+    // freemarker本身配置了templateLoaderPath而在viewResolver中不需要配置prefix，且路径前缀必须配置在 templateLoaderPath 中
+    viewResolver.setPrefix("")
+    viewResolver.setSuffix(".ftl")
+    viewResolver.isCache = false
+    viewResolver.setContentType("text/html;charset=UTF-8")
+    viewResolver.setRequestContextAttribute("requestContext") //为模板调用时，调用 request 对象的变量名
+    viewResolver.order = 0
+    viewResolver.setExposeRequestAttributes(true);
+    viewResolver.setExposeSessionAttributes(true);
+    return viewResolver
+}
 
 
     /**
@@ -142,26 +142,26 @@ override fun addViewControllers(registry: ViewControllerRegistry) {
      * 1.spring和freemarker的整合，需要定义两个bean：FreeMarkerViewResolver、FreeMarkerConfigurer。
      * 2.spring在Dispatcher中定义了视图渲染的过程:创建视图，然后利用Freemarker本身提供的Template方法来处理。
      */
-    @Bean
-    open fun freemarkerConfig(): FreeMarkerConfigurer {
-        val freemarkerConfig = FreeMarkerConfigurer()
-        freemarkerConfig.setDefaultEncoding("UTF-8")
-        freemarkerConfig.setTemplateLoaderPath("classpath:/templates/")
-        var configuration: Configuration? = null
-        try {
-            configuration = freemarkerConfig.createConfiguration()
-            configuration.defaultEncoding = "UTF-8"
-        } catch (e: IOException) {
-            log.error("freemarker配置bean，IO异常: {}", e)
-        } catch (e: TemplateException) {
-            log.error("freemarker配置bean，TemplateException 异常: {}", e)
-        }
-
-        val freemarkerVars = mutableMapOf<String, Any>()
-        freemarkerVars["rootContextPath"] = environment.getProperty("root.context.path")
-        freemarkerConfig.setFreemarkerVariables(freemarkerVars)
-        return freemarkerConfig
+@Bean
+open fun freemarkerConfig(): FreeMarkerConfigurer {
+    val freemarkerConfig = FreeMarkerConfigurer()
+    freemarkerConfig.setDefaultEncoding("UTF-8")
+    freemarkerConfig.setTemplateLoaderPath("classpath:/templates/")
+    var configuration: Configuration? = null
+    try {
+        configuration = freemarkerConfig.createConfiguration()
+        configuration.defaultEncoding = "UTF-8"
+    } catch (e: IOException) {
+        log.error("freemarker配置bean，IO异常: {}", e)
+    } catch (e: TemplateException) {
+        log.error("freemarker配置bean，TemplateException 异常: {}", e)
     }
+
+    val freemarkerVars = mutableMapOf<String, Any>()
+    freemarkerVars["rootContextPath"] = environment.getProperty("root.context.path")
+    freemarkerConfig.setFreemarkerVariables(freemarkerVars)
+    return freemarkerConfig
+}
 
     /**
      * 配置视图解析器：ViewResolver
@@ -184,37 +184,36 @@ override fun addViewControllers(registry: ViewControllerRegistry) {
     #comma-separated list
     #spring.freemarker.view-names= # whitelist of view names that can be resolved
      */
-    override fun configureViewResolvers(registry: ViewResolverRegistry) {
-        super.configureViewResolvers(registry)
-        registry.viewResolver(freeMarkerViewResolver())
-    }
+override fun configureViewResolvers(registry: ViewResolverRegistry) {
+    super.configureViewResolvers(registry)
+    registry.viewResolver(freeMarkerViewResolver())
+}
 
-    /**
-     * 配置消息转换器
-     */
-    override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
-        super.configureMessageConverters(converters)
-        //创建fastjson消息转换器: FastJsonHttpMessageConverter
-        val fastConverter = FastJsonHttpMessageConverter()
-        //创建 FastJsonConfig 配置类
-        val fastJsonConfig = FastJsonConfig()
-        //定制过滤 JSON 返回
-        fastJsonConfig.setSerializerFeatures(
-                SerializerFeature.WriteNullNumberAsZero,
-                SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.WriteNullStringAsEmpty
-        )
-        fastConverter.setFastJsonConfig(fastJsonConfig)
-        //将 fastConverter 添加到视图消息转换器列表内
-        converters.add(fastConverter)
+/**
+ * 配置消息转换器
+ */
+override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
+    super.configureMessageConverters(converters)
+    //创建fastjson消息转换器: FastJsonHttpMessageConverter
+    val fastConverter = FastJsonHttpMessageConverter()
+    //创建 FastJsonConfig 配置类
+    val fastJsonConfig = FastJsonConfig()
+    //定制过滤 JSON 返回
+    fastJsonConfig.setSerializerFeatures(
+            SerializerFeature.WriteNullNumberAsZero,
+            SerializerFeature.DisableCircularReferenceDetect,
+            SerializerFeature.WriteMapNullValue,
+            SerializerFeature.WriteNullStringAsEmpty
+    )
+    fastConverter.setFastJsonConfig(fastJsonConfig)
+    //将 fastConverter 添加到视图消息转换器列表内
+    converters.add(fastConverter)
+}
 
-    }
-
-    override fun addFormatters(registry: FormatterRegistry) {
-        super.addFormatters(registry)
-        registry.addFormatter(DateFormatter("yyyy-MM-dd"))
-    }
+override fun addFormatters(registry: FormatterRegistry) {
+    super.addFormatters(registry)
+    registry.addFormatter(DateFormatter("yyyy-MM-dd"))
+}
 
 
 }
