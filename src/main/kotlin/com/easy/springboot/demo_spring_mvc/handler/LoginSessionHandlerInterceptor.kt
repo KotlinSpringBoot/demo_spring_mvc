@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * HandlerInterceptor拦截器的最终调用实现是在DispatcherServlet的doDispatch方法中，
  * 并且SpringMVC提供了HandlerExecutionChain来帮助我们执行所有配置的HandlerInterceptor拦截器，
- * 并分别调用HandlerInterceptor所提供的方法。
+ * 并分别调用 HandlerInterceptor 所提供的方法。
  */
 
 @Component

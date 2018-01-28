@@ -20,7 +20,7 @@ import java.io.IOException
 
 
 @org.springframework.context.annotation.Configuration
-class WebMvcConfig : WebMvcConfigurationSupport() {
+open class WebMvcConfig : WebMvcConfigurationSupport() {
     val log = LoggerFactory.getLogger(WebMvcConfig::class.java)
     @Autowired lateinit var loginSessionHandlerInterceptor: LoginSessionHandlerInterceptor
     @Autowired lateinit var environment: Environment
@@ -86,15 +86,15 @@ class WebMvcConfig : WebMvcConfigurationSupport() {
     /**
      * View - Controller 映射配置
      */
-    override fun addViewControllers(registry: ViewControllerRegistry) {
-        super.addViewControllers(registry)
+override fun addViewControllers(registry: ViewControllerRegistry) {
+    super.addViewControllers(registry)
 
-        registry.addViewController("/").setViewName("/index")
-        registry.addViewController("/index").setViewName("/index")
-        registry.addViewController("/about").setViewName("/about")
-        registry.addViewController("/error/403").setViewName("/error/403")
-        registry.addViewController("/error/500").setViewName("/error/500")
-    }
+    registry.addViewController("/").setViewName("/index")
+    registry.addViewController("/index").setViewName("/index")
+    registry.addViewController("/about").setViewName("/about")
+    registry.addViewController("/error/403").setViewName("/error/403")
+    registry.addViewController("/error/500").setViewName("/error/500")
+}
 
     /**
      * 重写 addCorsMappings方法:
@@ -107,21 +107,19 @@ class WebMvcConfig : WebMvcConfigurationSupport() {
         super.addCorsMappings(registry)
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-
-
+                .allowedMethods("PUT,POST,GET,DELETE,OPTIONS")
+                .allowedHeaders("x-requested-with,content-type,Access-Control-Allow-Origin")
     }
 
 
     /**
      *
-     * FreeMarker视图配置
+     * FreeMarker 视图解析器配置
      * 配置了@Bean注解，该注解会将方法返回值加入到Spring Ioc 容器内。
      * @return
      */
     @Bean
-    fun freeMarkerViewResolver(): FreeMarkerViewResolver {
+    open fun freeMarkerViewResolver(): FreeMarkerViewResolver {
         val viewResolver = FreeMarkerViewResolver()
         // freemarker本身配置了templateLoaderPath而在viewResolver中不需要配置prefix，且路径前缀必须配置在 templateLoaderPath 中
         viewResolver.setPrefix("")
@@ -145,7 +143,7 @@ class WebMvcConfig : WebMvcConfigurationSupport() {
      * 2.spring在Dispatcher中定义了视图渲染的过程:创建视图，然后利用Freemarker本身提供的Template方法来处理。
      */
     @Bean
-    fun freemarkerConfig(): FreeMarkerConfigurer {
+    open fun freemarkerConfig(): FreeMarkerConfigurer {
         val freemarkerConfig = FreeMarkerConfigurer()
         freemarkerConfig.setDefaultEncoding("UTF-8")
         freemarkerConfig.setTemplateLoaderPath("classpath:/templates/")
