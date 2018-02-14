@@ -13,6 +13,6 @@ class Role {
     var gmtCreate = Date()
     var gmtModify = Date()
     var isDeleted = 0
-    @Column(unique = true)
+    @Column(unique = true,length = 100)
     var role = "ROLE_USER"
 }

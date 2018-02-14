@@ -1,5 +1,6 @@
 package com.easy.springboot.demo_spring_mvc.controller
 
+import com.easy.springboot.demo_spring_mvc.exception.NoPermissionException
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -12,19 +13,45 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class RouterController {
 
-    @GetMapping(value = ["/index"])
-    fun index(): String {
-        return "index"
+//    @GetMapping(value = ["/index"])
+//    fun index(): String {
+//        return "index"
+//    }
+//
+//    @GetMapping(value = ["/about"])
+//    fun about(): String {
+//        return "about"
+//    }
+//
+//    @GetMapping(value = ["/error/403"])
+//    fun error_403(): String {
+//        return "error/403"
+//    }
+//
+//    @GetMapping(value = ["/error/500"])
+//    fun error_500(): String {
+//        return "error/500"
+//    }
+
+    /**
+     * 测试全局异常处理：
+     * @ControllerAdvice
+     * class WikiExceptionHandler
+     */
+    @GetMapping(value = ["/test/ArithmeticException"])
+    fun testArithmeticException(): String {
+        val x = 1 / 0 // ArithmeticException
+        return "exception"
     }
 
-    @GetMapping(value = ["/about"])
-    fun about(): String {
-        return "about"
-    }
-
-    @GetMapping(value = ["/error/403"])
-    fun error_403(): String {
-        return "error/403"
+    /**
+     * 测试异常处理
+     * @Component
+     * class WikiHandlerExceptionResolver : HandlerExceptionResolver
+     */
+    @GetMapping(value = ["/test/NoPermissionException"])
+    fun testNoPermissionException(): String {
+        throw NoPermissionException("没有权限")
     }
 
     @GetMapping(value = ["/category/list/{type}"])

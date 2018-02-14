@@ -2,7 +2,6 @@ package com.easy.springboot.demo_spring_mvc.aop
 
 import com.easy.springboot.demo_spring_mvc.constant.CommonContext
 import com.easy.springboot.demo_spring_mvc.entity.User
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.*
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.util.*
 
 
 @Component
@@ -45,25 +43,20 @@ class UserPermissionAspect {
     }
 
     private fun processNoPermissionResponse(attributes: ServletRequestAttributes) {
-        if (isAjax(attributes)) {
-            // 输出 JSON
-            writeResponseJsonNoPermission(attributes)
-        } else {
-            // 跳转没有权限页面
-            forwardNoPermissionResponse(attributes)
-        }
+        // 跳转没有权限页面
+        forwardNoPermissionResponse(attributes)
     }
 
-    private fun writeResponseJsonNoPermission(attributes: ServletRequestAttributes) {
-        val response = attributes.response
-        response.characterEncoding = "UTF-8"
-        response.contentType = "application/json; charset=utf-8"
-        val writer = response.writer
-        val result = HashMap<String, Any>()
-        result.put("code", "403")
-        result.put("message", "无权限")
-        writer.write(ObjectMapper().writeValueAsString(result))
-    }
+//    private fun writeResponseJsonNoPermission(attributes: ServletRequestAttributes) {
+//        val response = attributes.response
+//        response.characterEncoding = "UTF-8"
+//        response.contentType = "application/json; charset=utf-8"
+//        val writer = response.writer
+//        val result = HashMap<String, Any>()
+//        result.put("code", "403")
+//        result.put("message", "无权限")
+//        writer.write(ObjectMapper().writeValueAsString(result))
+//    }
 
     private fun forwardNoPermissionResponse(attributes: ServletRequestAttributes) {
         val request = attributes.request
@@ -72,10 +65,10 @@ class UserPermissionAspect {
                 .forward(request, response)
     }
 
-    private fun isAjax(attributes: ServletRequestAttributes): Boolean {
-        val request = attributes.request
-        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"), ignoreCase = true)
-    }
+//    private fun isAjax(attributes: ServletRequestAttributes): Boolean {
+//        val request = attributes.request
+//        return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"), ignoreCase = true)
+//    }
 
 
     @AfterReturning(returning = "ret", pointcut = "userPermissionPointCut()")// returning的值和doAfterReturning的参数名一致

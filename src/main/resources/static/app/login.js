@@ -2,7 +2,7 @@ var App = {
     login: function () {
         $('#login-btn').on('click', function () {
             $.ajax({
-                url: '/doLogin',
+                url: '/wiki/api/doLogin',
                 data: $('#login-form').serialize(),
                 method: 'POST',
                 dataType: 'json',

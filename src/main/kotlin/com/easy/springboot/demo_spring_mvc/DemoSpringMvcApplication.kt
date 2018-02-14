@@ -15,12 +15,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.ServletComponentScan
 import org.springframework.context.support.BeanDefinitionDsl
 import org.springframework.context.support.beans
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import java.io.File
 
 @SpringBootApplication
 @ServletComponentScan(basePackages = ["com.easy.springboot.demo_spring_mvc.filter"])
 @EnableAutoConfiguration(exclude = [ErrorMvcAutoConfiguration::class])
-class DemoSpringMvcApplication
+@EnableWebMvc
+open class DemoSpringMvcApplication
 
 fun main(args: Array<String>) {
     SpringApplicationBuilder().initializers(
@@ -62,7 +64,7 @@ private fun BeanDefinitionDsl.BeanDefinitionContext.initUser() {
         jack.username = "jack"
         jack.password = MD5Util.md5("123456")
 
-        val jackRoles = setOf(r1,r2)
+        val jackRoles = setOf(r1, r2)
         jack.roles = jackRoles
         userDao.save(jack)
 
@@ -125,6 +127,39 @@ private fun BeanDefinitionDsl.BeanDefinitionContext.initCategory() {
             category.code = items[0]
             category.name = items[1]
             category.type = 3
+            CategoryDao.save(category)
+        } catch (e: Exception) {
+        }
+    }
+    /** 初始化中国产业分页数据 */
+    println(File(".").absolutePath) // /Users/jack/easykotlin/reakt/.
+    val f4 = File("src/main/resources/中国产业分页.data")
+    f4.readLines().forEach {
+        try {
+            val items = it.split("=")
+            println("${items[0]}=${items[1]}")
+            val category = Category()
+            category.code = items[0]
+            category.name = items[1]
+            category.detail = items[2]
+            category.type = 4
+            CategoryDao.save(category)
+        } catch (e: Exception) {
+        }
+    }
+
+    /** 初始化中国产业分页数据 */
+    println(File(".").absolutePath) // /Users/jack/easykotlin/reakt/.
+    val f5 = File("src/main/resources/编程语言.data")
+    f5.readLines().forEach {
+        try {
+            val items = it.split("=")
+            println("${items[0]}=${items[1]}=${items[2]}")
+            val category = Category()
+            category.code = items[0]
+            category.name = items[1]
+            category.detail = items[2]
+            category.type = 5
             CategoryDao.save(category)
         } catch (e: Exception) {
         }

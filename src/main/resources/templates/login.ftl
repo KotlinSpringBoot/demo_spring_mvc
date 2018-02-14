@@ -26,5 +26,5 @@
         </form>
     </div>
 </div>
-<script src="/app/login.js"></script>
+<script src="${rootContextPath}/app/login.js"></script>
 <#include 'layout/foot.ftl'>
