@@ -1,3 +1,6 @@
+CREATE SCHEMA `reakt` DEFAULT CHARACTER SET utf8 ;
+
+
 show tables;
 
 SELECT * FROM user;
